@@ -5,5 +5,6 @@
 _site
 .Gemfile.un~
 Gemfile~
+Gemfile.lock
 
 .DS_Store
