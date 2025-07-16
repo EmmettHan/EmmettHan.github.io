@@ -8,3 +8,4 @@ gem "webrick", "~> 1.7"
 gem 'jekyll-sitemap'
 gem 'logger'
 gem 'csv'
+gem "jekyll-remote-theme"
