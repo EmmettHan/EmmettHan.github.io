@@ -13,6 +13,7 @@ GEM
       public_suffix (>= 2.0.2, < 7.0)
     colorator (1.1.0)
     concurrent-ruby (1.3.5)
+    csv (3.3.5)
     em-websocket (0.5.3)
       eventmachine (>= 0.12.9)
       http_parser.rb (~> 0)
@@ -57,6 +58,7 @@ GEM
     listen (3.9.0)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
+    logger (1.7.0)
     mercenary (0.3.6)
     pathutil (0.16.2)
       forwardable-extended (~> 2.6)
@@ -81,8 +83,10 @@ PLATFORMS
 
 DEPENDENCIES
   bundler (>= 2.3.26)
+  csv
   jekyll-redirect-from
   jekyll-sitemap
+  logger
   moving!
   rake (~> 12.0)
   wdm (>= 0.1.0)

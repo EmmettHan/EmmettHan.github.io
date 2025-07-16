@@ -8,7 +8,7 @@ show_excerpts: false # set to true to show excerpts on the homepage
 favicon: "./favicon.ico" # set the favicon of the site
 
 # Build settings
-remote_theme: huangyz0918/moving
+theme: moving
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
@@ -32,7 +32,7 @@ moving:
     # facebook: huangyz0918
     # flickr:
     # instagram:
-    linkedin: yizheng-huang
+    # linkedin:
     # pinterest:
     # youtube:
     # youtube_channel:
