@@ -11,6 +11,9 @@ favicon: "./favicon.ico" # set the favicon of the site
 remote_theme: huangyz0918/moving
 plugins:
   - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-redirect-from
+  - jekyll-sitemap
 
 # Moving date format
 # refer to https://shopify.github.io/liquid/filters/date/ if you want to customize this
