@@ -4,8 +4,17 @@ email: huaannan1225@gmail.com # your email shown in the footer
 url: https://annansuper.cn/ # this is your site's root address.
 description: > # this means to ignore newlines until "show_excerpts:"
   My personal Blog for anything.
-favicon: "./favicon.ico" # set the favicon of the site
 show_excerpts: false # set to true to show excerpts on the homepage
+favicon: "./favicon.ico" # set the favicon of the site
+
+
+# Build settings
+theme: moving # note, please use huangyz0918/moving if you want to publish to Github Pages.
+# remote_theme: huangyz0918/moving
+
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
 
 # Moving date format
 # refer to https://shopify.github.io/liquid/filters/date/ if you want to customize this
@@ -41,9 +50,3 @@ moving:
     # - username:
     #   instance:
 
-# Build settings
-remote_theme: huangyz0918/moving # note, please use huangyz0918/moving if you want to publish to Github Pages.
-
-plugins:
-  - jekyll-feed
-  - jekyll-seo-tag
