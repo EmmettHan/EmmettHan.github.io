@@ -7,14 +7,10 @@ description: > # this means to ignore newlines until "show_excerpts:"
 show_excerpts: false # set to true to show excerpts on the homepage
 favicon: "./favicon.ico" # set the favicon of the site
 
-
 # Build settings
-theme: moving # note, please use huangyz0918/moving if you want to publish to Github Pages.
-# remote_theme: huangyz0918/moving
-
+remote_theme: huangyz0918/moving
 plugins:
   - jekyll-feed
-  - jekyll-seo-tag
 
 # Moving date format
 # refer to https://shopify.github.io/liquid/filters/date/ if you want to customize this
