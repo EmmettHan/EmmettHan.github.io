@@ -11,8 +11,10 @@ Ruby是一个编程语言，意思是红宝石。
 rake 是 Ruby 语言的类 make 程序 ，有 `Makefile` 所以也有 `RakeFile` 。可以定义任务、源码依赖。
 
 ## gem
-gem 是 Ruby 的包管理器，命令就是 `gem`， 包后缀名字也是 `.gem`， 类似于 `rpm`
+gem 是 Ruby 的包管理器，命令就是 `gem`， 包后缀名字也是 `.gem`， 类似于 `rpm`。
+
 但是 `rpm `只能安装本地包，不能联网下载。联网下载要用 `yum`。
+
 就像 Debian 系里的包管理器是 `dpkg`， 不能联网下载，联网下载用 `apt`。
 
 ## gemspec
@@ -35,7 +37,7 @@ Bundler的出现修复了RubyGems没有解决的问题。Ruby 的开发者只需
 执行`bundler install`时，`bundler`会读取`Gemfile`文件并一次性安装所有依赖gem。
 
 Bundler负责下载Gemfile中所有的gem。
-在应用根目录 `Gemfile` 文件里声明依赖后，Bundler 会去 source 指定的 `https://rubygems.org` 上寻找 gem
+在应用根目录 `Gemfile` 文件里声明依赖后，Bundler 会去 source 指定的 `https://rubygems.org` 上寻找 gem。
 
 Bundler和GemFile并不是必须的，但推荐使用。因为Bundler可以保证在不同平台上安装对应的依赖Gem版本。
 
