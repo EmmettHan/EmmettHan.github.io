@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 💎【Ruby】Ruby和gem的简单知识
+title: 💎【Ruby】Ruby和gem概念知识简介
 date: 2025-7-17
 ---
 ## Ruby
