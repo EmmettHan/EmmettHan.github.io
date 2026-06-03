@@ -3,4 +3,10 @@ sitemap: false
 ---
 
 @import "moving";
-@import url('https://fonts.googleapis.com/css?family=Bitter&display=swap');
+@font-face {
+  font-family: 'Bitter';
+  font-style: normal;
+  font-weight: 400;
+  src: url('/assets/fonts/Bitter.woff2') format('woff2');
+  font-display: swap;
+}
