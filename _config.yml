@@ -8,6 +8,7 @@ show_excerpts: false # set to true to show excerpts on the homepage
 favicon: "./favicon.ico" # set the favicon of the site
 
 # Build settings
+permalink: /:year/:month/:day/:slug/
 remote_theme: huangyz0918/moving
 plugins:
   - jekyll-feed
