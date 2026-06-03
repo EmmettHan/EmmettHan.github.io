@@ -3,9 +3,10 @@
 publish.sh — Obsidian → Jekyll 一键发布脚本
 
 用法:
-  ./publish.sh /path/to/vault/note.md          # 发布单篇
-  ./publish.sh /path/to/vault/folder/           # 批量发布目录下所有 .md
-  ./publish.sh /path/to/vault/note.md --push    # 发布并 git push
+  ./publish.sh /path/to/vault/note.md                          # 发布单篇
+  ./publish.sh /path/to/vault/note.md --emoji 🔧 --tag Crash   # 带 emoji 标签
+  ./publish.sh /path/to/vault/folder/                          # 批量发布
+  ./publish.sh /path/to/vault/note.md --push                   # 发布并 git push
 """
 
 import os
@@ -45,9 +46,15 @@ def extract_title(body: str, filename: str) -> str:
     if match:
         return match.group(1).strip()
 
-    # 从文件名推断：去掉扩展名，去掉常见前缀
     name = Path(filename).stem
     return name
+
+
+def format_title(title: str, emoji: str = "", tag: str = "") -> str:
+    """格式化标题为 emoji【tag】title 格式。"""
+    if emoji and tag:
+        return f"{emoji}【{tag}】{title}"
+    return title
 
 
 def slugify(title: str) -> str:
@@ -96,6 +103,10 @@ def convert_obsidian_syntax(body: str) -> str:
         flags=re.MULTILINE,
     )
 
+    # 清理 Obsidian 标签（#标签 格式，行首或行内）
+    body = re.sub(r"(?m)^#\S+(\s+#\S+)*\s*$", "", body)
+    body = re.sub(r"(?<!\w)#[\w一-鿿]+", "", body)
+
     # 清理多余空行（超过 2 个连续空行 → 2 个）
     body = re.sub(r"\n{3,}", "\n\n", body)
 
@@ -106,7 +117,7 @@ def generate_jekyll_post(meta: dict, body: str, title: str, date_str: str) -> st
     """生成 Jekyll 格式的文章内容。"""
     front_matter = f"""---
 layout: post
-title: "{title}"
+title: {title}
 date: {date_str}
 ---"""
 
@@ -115,7 +126,7 @@ date: {date_str}
 
 def get_output_path(date_str: str, slug: str) -> Path:
     """生成输出文件路径，处理同名冲突。"""
-    date_prefix = date_str.split(" ")[0]  # 取日期部分 YYYY-MM-DD
+    date_prefix = date_str.split(" ")[0]
     filename = f"{date_prefix}-{slug}.md"
     output = POSTS_DIR / filename
 
@@ -128,7 +139,7 @@ def get_output_path(date_str: str, slug: str) -> Path:
     return output
 
 
-def publish_note(source: Path) -> Path | None:
+def publish_note(source: Path, emoji: str = "", tag: str = "") -> Path | None:
     """发布单篇笔记到 _posts/。"""
     if not source.exists():
         print(f"  ✗ 文件不存在: {source}")
@@ -144,15 +155,15 @@ def publish_note(source: Path) -> Path | None:
     # 提取日期
     date_str = meta.get("created", "")
     if not date_str:
-        # fallback: 用文件修改时间
         mtime = source.stat().st_mtime
         from datetime import datetime
         date_str = datetime.fromtimestamp(mtime).strftime("%Y-%m-%d %H:%M")
         print(f"  ⚠ 无 created 字段，使用文件修改时间: {date_str}")
 
-    # 提取标题
-    title = extract_title(body, source.name)
-    slug = slugify(title)
+    # 提取标题并格式化
+    raw_title = extract_title(body, source.name)
+    title = format_title(raw_title, emoji, tag)
+    slug = slugify(raw_title)
 
     # 转换语法
     body = convert_obsidian_syntax(body)
@@ -188,10 +199,29 @@ def main():
     push = "--push" in sys.argv
     args = [a for a in sys.argv[1:] if a != "--push"]
 
-    source = Path(args[0]).resolve()
+    # 解析 --emoji 和 --tag
+    emoji = ""
+    tag = ""
+    positional = []
+    i = 0
+    while i < len(args):
+        if args[i] == "--emoji" and i + 1 < len(args):
+            emoji = args[i + 1]
+            i += 2
+        elif args[i] == "--tag" and i + 1 < len(args):
+            tag = args[i + 1]
+            i += 2
+        else:
+            positional.append(args[i])
+            i += 1
+
+    if not positional:
+        print(__doc__)
+        sys.exit(1)
+
+    source = Path(positional[0]).resolve()
 
     if source.is_dir():
-        # 批量发布目录下所有 .md
         files = sorted(source.glob("*.md"))
         if not files:
             print(f"目录中没有 .md 文件: {source}")
@@ -200,7 +230,7 @@ def main():
         print(f"批量发布 {len(files)} 篇文章...\n")
         published = []
         for f in files:
-            result = publish_note(f)
+            result = publish_note(f, emoji, tag)
             if result:
                 published.append(result)
 
@@ -210,7 +240,7 @@ def main():
         print(f"\n完成: {len(published)}/{len(files)} 篇已发布")
 
     elif source.is_file():
-        result = publish_note(source)
+        result = publish_note(source, emoji, tag)
         if result and push:
             git_push([result], result.stem)
 
